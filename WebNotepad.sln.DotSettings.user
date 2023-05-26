@@ -1,0 +1,12 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/ActualSeverity/@EntryValue">INFO</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=99e2ff29_002Dcc18_002D40c8_002Daabd_002Dd0f1f829ba11/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateUser_WithProperInput_ReturnTrue" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::91CADD2C-5550-4C26-9AAF-F44FF05040C0::net6.0::WebNotesUnitTesting.UnitTest1.CreateUser_WithProperInput_ReturnTrue&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::91CADD2C-5550-4C26-9AAF-F44FF05040C0::net6.0::WebNotesUnitTesting.UnitTest2&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::91CADD2C-5550-4C26-9AAF-F44FF05040C0::net6.0::WebNotesUnitTesting.UnitTest3.CreateNote_WithNonProperInput_ReturnTrue&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::91CADD2C-5550-4C26-9AAF-F44FF05040C0::net6.0::WebNotesUnitTesting.UnitTest3&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::91CADD2C-5550-4C26-9AAF-F44FF05040C0::net6.0::WebNotesUnitTesting.UnitTest4&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	</wpf:ResourceDictionary>

@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebNotepad", "WebNotepad\WebNotepad.csproj", "{891013DB-2E09-4B58-A13B-D5F951DD6879}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebNotesUnitTesting", "WebNotesUnitTesting\WebNotesUnitTesting.csproj", "{91CADD2C-5550-4C26-9AAF-F44FF05040C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{891013DB-2E09-4B58-A13B-D5F951DD6879}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{891013DB-2E09-4B58-A13B-D5F951DD6879}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{891013DB-2E09-4B58-A13B-D5F951DD6879}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{891013DB-2E09-4B58-A13B-D5F951DD6879}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91CADD2C-5550-4C26-9AAF-F44FF05040C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91CADD2C-5550-4C26-9AAF-F44FF05040C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91CADD2C-5550-4C26-9AAF-F44FF05040C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91CADD2C-5550-4C26-9AAF-F44FF05040C0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
