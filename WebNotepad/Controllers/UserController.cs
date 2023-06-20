@@ -41,16 +41,16 @@ public class UserController : ControllerBase
     }
     [ActionName("UpdateEmail")]
     [HttpPut("api/users")]
-    public IActionResult UpdateEmail(int id,string password, string email)
+    public async Task<IActionResult> UpdateEmail(int id,string password, string email)
     {
-        _usersServices.ChangeEmail(id, password, email);
+        _usersServices.ChangeEmail(email, await GetCurrentUser());
         return Ok();
     }
     [ActionName("UpdatePassword")]
     [HttpPut("api/users/changepass")]
-    public IActionResult UpdatePassword([FromBody] ChangeUserPasswordRequest newPass)
+    public async Task<IActionResult> UpdatePassword([FromBody] ChangeUserPasswordRequest newPass)
     {
-        _usersServices.ChangePassword(newPass.email, newPass.oldPassword, newPass.newPassword, newPass.confirmNewPassword);
+        _usersServices.ChangePassword(newPass.oldPassword, newPass.newPassword, newPass.confirmNewPassword, await GetCurrentUser());
         return Ok();
     }
     [ActionName("Login")]
@@ -61,6 +61,14 @@ public class UserController : ControllerBase
        await HttpContext.SignInAsync(li);
        return Ok(li);
     }
+    [ActionName("LogOut")]
+    [HttpPost("api/users/logout")]
+    public async Task<IActionResult> LogOut()
+    {
+        await _usersServices.Logout();
+        return Ok();
+    }
+    
     [ActionName("Delete User")]
     [HttpDelete("api/users")]
     public IActionResult DeleteUser(int id)
@@ -73,5 +81,10 @@ public class UserController : ControllerBase
     public IActionResult ShowUsers()
     {
         return Ok(_usersServices.GetUsers());
+    }
+    private async Task<User> GetCurrentUser()
+    {
+        //var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+        return await _userManager.GetUserAsync(HttpContext.User);
     }
 }

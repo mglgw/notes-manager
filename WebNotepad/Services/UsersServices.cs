@@ -24,9 +24,6 @@ public class UsersServices
         _roleManager = roleManager;
         _identityOptions = identityOptions;
     }
-    
-    
-    
     public async Task <IdentityResult> CreateUser(int id, string email, string password)
     {
         var tempuser = new User
@@ -45,14 +42,6 @@ public class UsersServices
         {
             throw new Exception(result.Errors.ToString());
         }
-        /*
-        var tempuser = new User();
-        tempuser.Id = id;
-        //tempuser.Name = name;
-        tempuser.Email = email;
-        tempuser.Password = EncPass(password);
-        _dataBaseContext.Users.Add(tempuser);
-        _dataBaseContext.SaveChanges();*/
     }
     public void DeleteUser(int tempid)
     {
@@ -62,42 +51,22 @@ public class UsersServices
         _dataBaseContext.Users.Remove(tempuser);
         _dataBaseContext.SaveChanges();*/
     }
-    public void ChangePassword(string email, string oldpass, string newpass, string confnewpass)
-    {/*
-        string temppass = EncPass(newpass);
-        string temppassconf = EncPass(confnewpass);
-        oldpass = EncPass(oldpass);
-        var tempuser = _dataBaseContext.Users
-            .Where(user => email == user.Email)
-            .FirstOrDefault();
-        if (temppass == temppassconf )
+    public async Task<IdentityResult> ChangePassword( string oldPass, string newPass, string confNewPass, User user)
+    {
+        if (newPass == confNewPass && user != null)
         {
-            if (tempuser == null || tempuser.Password != oldpass)
-            {
-                throw new Exception("User does not exist or credentials are incorrect!");
-            }
-            tempuser.Password = temppass;
-            _dataBaseContext.SaveChanges();
+         var result =  await _userManager.ChangePasswordAsync(user,oldPass, newPass);
+         return result;
         }
         else
         {
-            throw new Exception("New passwords do not match!");
+            throw new Exception("Error occured");
         }
-        */
-       
     }
-    public void ChangeEmail(int tempid, string password, string newemail)
-    {/*
-        password = EncPass(password);
-        var tempuser = _dataBaseContext.Users
-            .Where(user => tempid == user.Id)
-            .FirstOrDefault();
-        if (tempuser == null || tempuser.Password !=password)
-        {
-            throw new Exception("User does not exist or credentials are incorrect!");
-        }
-        tempuser.Email = newemail;
-        _dataBaseContext.SaveChanges();*/
+    public async Task ChangeEmail(string newEmail, User user)
+    {
+        var tempToken = await _userManager.GenerateUserTokenAsync(user, "EmailChange", "ChangingEmail");
+        await _userManager.ChangeEmailAsync(user, newEmail, tempToken);
     }
     public async Task<ClaimsPrincipal> Login( string tempemail, string password, bool rememberme)
     {
@@ -119,16 +88,12 @@ public class UsersServices
         {
             throw new Exception("Login failed");
         }
-
-        /*var encpassword = EncPass(password);
-        var tempuser = _dataBaseContext.Users
-            .Where(user => tempemail == user.Email)
-            .FirstOrDefault();
-        if (tempuser == null || tempuser.Password != encpassword)
-        {
-            throw new Exception("User does not exist or credentials are incorrect!");
-        }*/
     }
+    public async Task Logout()
+    {
+        await _signInManager.SignOutAsync();
+    }
+    
     public List<User> GetUsers()
     {
         return _dataBaseContext.Users.ToList();

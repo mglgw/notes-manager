@@ -13,22 +13,22 @@ public class NotesServices
         _dataBaseContext = DataBase;
         _userManager = userManager;
     }
-    public Note CreateNote(string title, string content/*,string userId*/)
+    public Note CreateNote(string title, string content,string userId)
     {
         var tempnote = new Note();
         tempnote.CreatedDate = DateTime.UtcNow;
         tempnote.ModifiedDate = tempnote.CreatedDate;
         tempnote.Title = title;
         tempnote.Content = content;
-       // tempnote.CreatedBy = userId;
+        tempnote.CreatedBy = userId;
         _dataBaseContext.Notes.Add(tempnote);
         _dataBaseContext.SaveChanges();
         return tempnote;
     }
-    public void EditNote(int tempid, string newtitle, string newcontent)
+    public void EditNote(int tempid, string newtitle, string newcontent, string currentUserId)
     {
         var tempnote = _dataBaseContext.Notes
-            .Where(note => tempid == note.Id)
+            .Where(note => tempid == note.Id && note.CreatedBy == currentUserId)
             .FirstOrDefault();
         if (tempnote == null)
         {
@@ -39,14 +39,14 @@ public class NotesServices
         tempnote.ModifiedDate = DateTime.UtcNow;
         _dataBaseContext.SaveChanges();
     }
-    public void DeleteNote(int tempid)
+    public void DeleteNote(int tempid, string currentUserId)
     {
         var tempnote = _dataBaseContext.Notes
-            .Where(note => tempid ==note.Id)
+            .Where(note => tempid ==note.Id && currentUserId == note.CreatedBy)
             .FirstOrDefault();
         if (tempnote == null)
         {
-            throw new Exception("Choosen note does not exist!");
+            throw new Exception("Chosen note does not exist!");
         }
         _dataBaseContext.Notes.Remove(tempnote);
         _dataBaseContext.SaveChanges();
@@ -62,8 +62,11 @@ public class NotesServices
         }
         return tempnote;
     }
-    public List<Note> GetAllNotes()
+    public List<Note> GetAllNotes( string userId )
     {
-        return _dataBaseContext.Notes.ToList();
+        var tempNotes = _dataBaseContext.Notes
+                .Where(note => userId == note.CreatedBy)
+                .ToList();
+        return tempNotes;
     }
 }

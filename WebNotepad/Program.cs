@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Intro;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using WebNotepad.Models;
 using WebNotepad.Services;
 var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -51,9 +52,12 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.Cookie.HttpOnly = true;
-    options.Cookie.SameSite = SameSiteMode.None;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.HttpOnly = false;
+    options.Events.OnRedirectToAccessDenied = (context) =>
+    {
+        context.Response.StatusCode = 401;
+        return Task.CompletedTask;
+    };
 } );
 
 builder.Services.AddCors(options =>
@@ -67,6 +71,7 @@ builder.Services.AddCors(options =>
                 "https://localhost:5173");
             policy.AllowAnyMethod();
                 policy.AllowAnyHeader();
+                policy.AllowCredentials();
         });
 });
 
