@@ -4,5 +4,4 @@ namespace WebNotepad.Models;
 
 public class User : IdentityUser
 {
-    
 }

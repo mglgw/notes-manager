@@ -6,85 +6,74 @@ using WebNotepad.Models;
 using WebNotepad.Services;
 
 namespace WebNotepad.Controllers;
+
 [ApiController]
+[Route("api/users")]
 public class UserController : ControllerBase
 {
-    private readonly UsersServices _usersServices;
     private readonly UserManager<User> _userManager;
-    public UserController(UsersServices uServices, UserManager<User> userManager)
+    private readonly UserService _userService;
+    public UserController(UserService uServices, UserManager<User> userManager)
     {
-        _usersServices = uServices;
+        _userService = uServices;
         _userManager = userManager;
     }
-    /*[HttpGet]
-    public async Task<string> GetCurrentUserId()
-    {
-        User usr = await GetCurrentUserAsync();
-        return usr?.Id;
-    }
-    private Task<User> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
-    */
-
     [ActionName("Test")]
     [Authorize]
-    [HttpPost("api/test")]
+    [HttpPost]
     public IActionResult Test()
     {
         return Ok();
     }
     [ActionName("Create User")]
-    [HttpPost("api/users")]
-    public IActionResult Create(int id, [FromBody] CreateUserRequest newAcc)
+    [HttpPost]
+    public IActionResult Create([FromBody] CreateUserRequest newUserRequest)
     {
-        var  cr =_usersServices.CreateUser(id,newAcc.Email,newAcc.Password);
-        return Ok(cr);
+        var user = _userService.CreateUser(newUserRequest.Email, newUserRequest.Password);
+        return Ok(user);
     }
     [ActionName("UpdateEmail")]
-    [HttpPut("api/users")]
-    public async Task<IActionResult> UpdateEmail(int id,string password, string email)
+    [HttpPut]
+    public async Task<IActionResult> UpdateEmail(string email)
     {
-        _usersServices.ChangeEmail(email, await GetCurrentUser());
+        await _userService.ChangeEmail(email, await GetCurrentUser());
         return Ok();
     }
     [ActionName("UpdatePassword")]
-    [HttpPut("api/users/changepass")]
-    public async Task<IActionResult> UpdatePassword([FromBody] ChangeUserPasswordRequest newPass)
+    [HttpPut("/change-pass")]
+    public async Task<IActionResult> UpdatePassword([FromBody] ChangeUserPasswordRequest updatePasswordRequest)
     {
-        _usersServices.ChangePassword(newPass.oldPassword, newPass.newPassword, newPass.confirmNewPassword, await GetCurrentUser());
+        await _userService.ChangePassword(updatePasswordRequest.oldPassword,
+            updatePasswordRequest.newPassword,
+            updatePasswordRequest.confirmNewPassword,
+            await GetCurrentUser());
         return Ok();
     }
     [ActionName("Login")]
-    [HttpPost("api/users/login")]
-    public async Task<IActionResult> Authenticate([FromBody] AuthenticateUserRequest loginAcc )
+    [HttpPost("/login")]
+    public async Task<IActionResult> Authenticate([FromBody] AuthenticateUserRequest loginRequest)
     {
-       var li = await _usersServices.Login(loginAcc.Email, loginAcc.Password, loginAcc.RememberMe);
-       await HttpContext.SignInAsync(li);
-       return Ok(li);
+        var claimsPrincipal =
+            await _userService.Login(loginRequest.Email, loginRequest.Password, loginRequest.RememberMe);
+        await HttpContext.SignInAsync(claimsPrincipal);
+        return Ok(claimsPrincipal);
     }
     [ActionName("LogOut")]
-    [HttpPost("api/users/logout")]
+    [HttpPost("/logout")]
     public async Task<IActionResult> LogOut()
     {
-        await _usersServices.Logout();
+        await _userService.Logout();
         return Ok();
     }
-    
-    [ActionName("Delete User")]
-    [HttpDelete("api/users")]
-    public IActionResult DeleteUser(int id)
-    {
-        _usersServices.DeleteUser(id);
-        return Ok();
-    }
+
     [ActionName("Show Users")]
-    [HttpGet("api/users")]
+    [HttpGet]
     public IActionResult ShowUsers()
     {
-        return Ok(_usersServices.GetUsers());
+        return Ok(_userService.GetUsers());
     }
     private async Task<User> GetCurrentUser()
     {
-        //var currentUser = await _userManager.GetUserAsync(HttpContext.User);
         return await _userManager.GetUserAsync(HttpContext.User);
     }
 }
