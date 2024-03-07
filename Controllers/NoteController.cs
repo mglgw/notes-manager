@@ -37,7 +37,7 @@ public class NoteController : Controller
     }
 
     [ActionName("Delete Note")]
-    [HttpDelete("/{id}")]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         _noteService.DeleteNote(id, await GetCurrentUser());
@@ -52,7 +52,7 @@ public class NoteController : Controller
     }
 
     [ActionName("Get Specific Note")]
-    [HttpGet("/{id}")]
+    [HttpGet("{id}")]
     public IActionResult GetNote(int id)
     {
         return Ok(_noteService.GetById(id));

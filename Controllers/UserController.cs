@@ -20,7 +20,7 @@ public class UserController : ControllerBase
     }
     [ActionName("Test")]
     [Authorize]
-    [HttpPost]
+    [HttpPost("test")]
     public IActionResult Test()
     {
         return Ok();
@@ -40,7 +40,7 @@ public class UserController : ControllerBase
         return Ok();
     }
     [ActionName("UpdatePassword")]
-    [HttpPut("/change-pass")]
+    [HttpPut("change-pass")]
     public async Task<IActionResult> UpdatePassword([FromBody] ChangeUserPasswordRequest updatePasswordRequest)
     {
         await _userService.ChangePassword(updatePasswordRequest.oldPassword,
@@ -50,7 +50,7 @@ public class UserController : ControllerBase
         return Ok();
     }
     [ActionName("Login")]
-    [HttpPost("/login")]
+    [HttpPost("login")]
     public async Task<IActionResult> Authenticate([FromBody] AuthenticateUserRequest loginRequest)
     {
         var claimsPrincipal =
@@ -59,7 +59,7 @@ public class UserController : ControllerBase
         return Ok(claimsPrincipal);
     }
     [ActionName("LogOut")]
-    [HttpPost("/logout")]
+    [HttpPost("logout")]
     public async Task<IActionResult> LogOut()
     {
         await _userService.Logout();
