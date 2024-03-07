@@ -2,7 +2,6 @@
 
 namespace WebNotepad.Models;
 
-public class UserRole : IdentityRole
+public class User : IdentityUser
 {
-    
 }

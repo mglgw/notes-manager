@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WebNotepad.Models;
 
-namespace Intro;
+namespace WebNotepad.Models;
 
 public class DataBaseContext : IdentityDbContext<User, UserRole, string>
 {
