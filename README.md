@@ -16,9 +16,9 @@ I used Identity for account creation and management and SQlite for keeping users
 
 ## To Do
 
--[ ] Design rework
--[ ] Code cleanup and some optimization 
--[ ] More minor fixes 
+- [ ] Design rework
+- [ ] Code cleanup and some optimization 
+- [ ] More minor fixes 
 
 # Getting Started
 
